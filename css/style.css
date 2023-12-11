@@ -1,0 +1,77 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+}
+
+.gameboard{
+    height: 100vh;
+    border: 2px dashed blue;
+    
+}
+
+.scoreboard{
+    height: 50px;
+    width: 600px;
+    margin: 2vmin;
+    border: 1px solid green;
+}
+
+.grid-wrapper{
+    display: grid;
+   
+    gap: 0.5vmin;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed red;
+}
+
+.grid{
+    align-items: center;
+    border: 2px solid black;
+    display: grid;
+    grid-template-columns: repeat(17, 4vmin);
+    grid-template-rows: repeat(20, 4vmin);
+    height: 100%;
+    justify-content: center;
+    height: 80vmin;
+    width: 68vmin;
+
+}
+
+.grid div {
+    border: 1px solid lightseagreen;
+    flex-grow: 1;
+    
+    
+}
+.grid div.ship {
+    background-image: url('/img/Shooter.png');
+    background-repeat: no-repeat;
+    background-size: 4vmin;
+    cursor: pointer;
+}
+
+.grid div.blaster {
+    background-image: url("/img/Blaster.png");
+    background-repeat: no-repeat;
+    background-size: 4vmin;
+    
+}
+
+.grid div.blaster-end {
+    background-image: url("/img/Blaster-End.png");
+    background-repeat: no-repeat;
+    background-size: 4vmin;
+    
+}
+
+.grid div.alien {
+    background-image: url("/img/Alien.png");
+    background-repeat: no-repeat;
+    background-size: 4vmin;
+    
+}
