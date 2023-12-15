@@ -103,7 +103,7 @@ display: grid;
 justify-content: center;
 width: 68vmin;
 
-background-image: url("/img/SpaceInvadersTitle.png");
+background-image: url("../img/SpaceInvadersTitle.png");
 background-repeat: no-repeat;
 background-size: 30vmin;
 background-position: center;
@@ -131,7 +131,7 @@ background-position: center;
     justify-content: center;
     height: 80vmin;
     width: 68vmin;
-    background-image: url("/img/spaceInvadersBackground.png");
+    background-image: url("../img/spaceInvadersBackground.png");
     background-repeat: no-repeat;
     background-size:68vmin;
 
@@ -144,42 +144,42 @@ background-position: center;
     
 }
 .grid div.ship {
-    background-image: url('/img/Shooter.png');
+    background-image: url('../img/Shooter.png');
     background-repeat: no-repeat;
     background-size: 4vmin;
     cursor: pointer;
 }
 
 .grid div.blaster {
-    background-image: url("/img/Blaster.png");
+    background-image: url("../img/Blaster.png");
     background-repeat: no-repeat;
     background-size: 4vmin;
     
 }
 
 .grid div.blaster-end {
-    background-image: url("/img/Blaster-End.png");
+    background-image: url("../img/Blaster-End.png");
     background-repeat: no-repeat;
     background-size: 4vmin;
     
 }
 
 .grid div.alien {
-    background-image: url("/img/Alien.png");
+    background-image: url("../img/Alien.png");
     background-repeat: no-repeat;
     background-size: 4vmin;
     
 }
 
 .grid div.bomb {
-    background-image: url("/img/bomb.png");
+    background-image: url("../img/bomb.png");
     background-repeat: no-repeat;
     background-size: 4vmin;
     
 }
 
 .grid div.bomb-end {
-    background-image: url("/img/bomb-end.png");
+    background-image: url("../img/bomb-end.png");
     background-repeat: no-repeat;
     background-size: 4vmin;
     
