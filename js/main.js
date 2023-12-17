@@ -63,7 +63,7 @@ let shipCurrentPosition = shipStartingPosition
 let blasterStartingPosition = shipCurrentPosition - 17
 
 // Alien Config
-let alienStartingPositions = [55,72,89,106,123] 
+let alienStartingPositions = [55,72,89,106,123,140,157] 
 
 // ! Functions
 
@@ -268,7 +268,7 @@ function addAliensStarting(){
     // let alienRanks = (Math.floor(Math.random()*3)+2)
     let preExistingAliens = document.querySelectorAll(".alien")
     preExistingAliens.forEach((alien )=> {alien.remove()})
-    let alienRanks = 5
+    let alienRanks = 7
     for(let r = 0; r < alienRanks; r++){
         for (let c = 0; c < 9; c++){
            //select the first starting position using "r" in reverseStartingPositions
