@@ -19,6 +19,10 @@ body {
     
 }
 
+output{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .startPage {
     display: flex;
     flex-direction: column;
@@ -40,7 +44,7 @@ body {
 }
 
 .startPage > button{
-    height: 5vmin;
+    height: 6vmin;
     width: 10vmin;
     border-radius: 5%;
     font-weight: bold;
@@ -180,6 +184,13 @@ background-position: center;
 
 .grid div.bomb-end {
     background-image: url("../img/bomb-end.png");
+    background-repeat: no-repeat;
+    background-size: 4vmin;
+    
+}
+
+.grid div.hundred {
+    background-image: url("../img/Hundred.png");
     background-repeat: no-repeat;
     background-size: 4vmin;
     

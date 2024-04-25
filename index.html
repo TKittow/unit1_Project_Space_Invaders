@@ -23,11 +23,9 @@
         <div class="startPage">
             <h1>Space Invaders</h1>
             <p>Instructions: A & D for left and right. Space to Shoot!</p>
-            <button id="startMe"> Start Game</button>
-        </div>
-        <div class="endPage">
-            <h1>Game Over</h1>
-            <p id="endGameScore">Score here</p>
+            <span>Set the difficulty:</span>
+            <input type="range" min="1" max="7" value="4" oninput="this.nextElementSibling.value = this.value">
+            <output>4</output>
             <button id="startMe"> Start Game</button>
         </div>
 

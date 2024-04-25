@@ -1,45 +1,62 @@
-function allMenu(){
-  let startButton = document.getElementById("startMe")
+function firstMenu(state, score){
+    let startButton = document.getElementById("startMe")
     let startPage = document.querySelector(".startPage")
-
+    let slider = document.querySelector("input")
+    startPage.style.display = "flex"
+    let recordedScore = score
+    recordedScore += score
+    if (state === null){
+      let paragraph = document.querySelector("p")
+      paragraph.innerText = `Start Game`
+    } else {
+        let paragraph = document.querySelector("p")
+      paragraph.innerText = `You Lost!`
+      startButton.innerText = `Play Again?`
+    }
 
     startButton.addEventListener("click", handleStart)
     function handleStart(){
         startPage.style.display = "none"
+    console.log(slider.value)
         
-    init()
+    loadIt(slider.value, 0)
+    startButton.removeEventListener("click", handleStart)
+    return
+
     }
 
     
 }
 
-window.addEventListener('DOMContentLoaded', allMenu)
+function winState(state, score){
+
+    let startButton = document.getElementById("startMe")
+    let startPage = document.querySelector(".startPage")
+    let slider = document.querySelector("input")
+    startPage.style.display = "flex"
+    let recordedScore = score
+    recordedScore += score
+
+    startButton.innerText = "Continue?"
+
+    startButton.addEventListener("click", handleStart)
+    function handleStart(){
+        startPage.style.display = "none"
+    console.log(slider.value)
+        
+    loadIt(slider.value, recordedScore)
+    startButton.removeEventListener("click", handleStart)
+    return
+
+    }
+}
+
+window.addEventListener('DOMContentLoaded', firstMenu(null, 0))
 
 
+function loadIt(rankNumbers, scoreUpdate){
 
-
-
-function init(){
-
-// ! Variables & Elements
-
-//  ? Elements
-
-const grid = document.querySelector(".grid")
-const allAliens = document.querySelectorAll(".alien")
-
-grid.innerHTML = ""
-let leftOverAliens = document.querySelectorAll(".alien")
-    leftOverAliens.forEach((alien) =>{alien.classList.remove("alien")})
-    
-    //remove all aliens
-    let leftOverShip = document.querySelectorAll(".ship")
-    leftOverShip.forEach((ship) =>{ship.classList.remove("ship")})
-    
-    //remove all bombs
-    let leftOverBombs = document.querySelectorAll(".bomb")
-    leftOverBombs.forEach((bomb) =>{bomb.classList.remove("bomb")})
-    
+//! Stuff for the single load
 
 // ? Variables
 // Board Config
@@ -48,47 +65,114 @@ const height = "4vmin"
 const cellCount = 340
 let cells = []
 let knownAliens = []
-let direction = 1
+
 let alienIdArray = []
-let score = 0
-let startingAliensTotal = 0
-let shipHit = false
-let alienReachedEnd = false
-let roundWon = false
-let aliensKilled = 0
-let endScore = 0
+let scoreToAdd = scoreUpdate
 // Character Config
 const shipStartingPosition = 331
-let shipCurrentPosition = shipStartingPosition
-let blasterStartingPosition = shipCurrentPosition - 17
+
+
 
 // Alien Config
 let alienStartingPositions = [55,72,89,106,123,140,157] 
+const grid = document.querySelector(".grid")
+grid.innerHTML = ""
+
+    function createGrid(){
+    
+        for (let x = 0; x < cellCount; x++){
+            const cell = document.createElement("div")
+            cell.setAttribute("id", x)
+            // cell.innerText =x
+            cell.style.height = height
+            cell.style.Width = width
+            
+            grid.appendChild(cell)
+            cells.push(cell)
+            
+        }
+        
+        
+        // added the shooter class to starting position
+        addShip(shipStartingPosition)
+        
+        addAliensStarting()
+    
+    }
+
+    // ? Add Ship Class
+function addShip(position){
+    cells[position].classList.add("ship")
+    
+}
+
+function addAliensStarting(){
+    //Randomizing the ranks of enemies
+    //Would be good to set a difficulty before game starts!
+    // !Got rid of randomizer - use later
+    // let alienRanks = (Math.floor(Math.random()*3)+2)
+    let preExistingAliens = document.querySelectorAll(".alien")
+    preExistingAliens.forEach((alien )=> {alien.remove()})
+    let alienRanks = rankNumbers
+    for(let r = 0; r < alienRanks; r++){
+        for (let c = 0; c < 9; c++){
+           //select the first starting position using "r" in reverseStartingPositions
+           let startingRow = alienStartingPositions[r]
+           //assign "alien" class to the starting position using "c"
+           alienIdArray.push(startingRow+c)
+           let aNewHope = document.getElementById(startingRow + c)
+            aNewHope.classList.add("alien")
+            
+            knownAliens.push(aNewHope)
+            
+            // aliensNumbers++
+            
+            
+            
+        }
+    } startingAliensTotal = knownAliens.length
+}
+
+createGrid()
+init(shipStartingPosition, knownAliens, cells, alienIdArray, scoreToAdd)
+return
+}
+
+
+function init(firstParam,secondParam,thirdParam, fourthParam, thing){
+
+// ! Variables & Elements
+
+//  ? Elements Passed through
+
+let shipStartingPosition = firstParam
+let knownAliens = secondParam
+let cells = thirdParam
+const allAliens = document.querySelectorAll(".alien")
+
+
+
+// ? Variables
+// Board Config
+const cellCount = 340
+let direction = 1
+let alienIdArray = fourthParam
+let score = 0
+score = thing
+let startingAliensTotal = knownAliens.length
+let shipHit = false
+shipHit = false
+let roundWon = false
+roundWon = false
+let aliensKilled = 0
+let endScore = 0
+// Character Config
+let shipCurrentPosition = shipStartingPosition
+let blasterStartingPosition = shipCurrentPosition - 17
+
 
 // ! Functions
 
-
-function createGrid(){
-    
-    for (let x = 0; x < cellCount; x++){
-        const cell = document.createElement("div")
-        cell.setAttribute("id", x)
-        // cell.innerText =x
-        cell.style.height = height
-        cell.style.Width = width
-        
-        grid.appendChild(cell)
-        cells.push(cell)
-        
-    }
-    
-    
-    // added the shooter class to starting position
-    addShip(shipStartingPosition)
-    
-    addAliensStarting()
-
-}
 
 // ? Add Ship Class
 function addShip(position){
@@ -107,9 +191,9 @@ function shootBlaster(){
 }
 
 // ? Move Blaster Up
-//!NEEDS WORK!
+
 function moveBlaster(laserLocation){
-    
+    let startingAliensTotal = knownAliens.length
     let laserFinal = 0
 
     //time function
@@ -126,11 +210,13 @@ function moveBlaster(laserLocation){
                 cells[laserLocation].classList.remove("alien")
                 removeAlienFromArray(laserLocation)
                 cells[laserLocation].classList.remove("blaster")
+               cells[laserLocation].classList.add("Hundred")
                
-                laserFinal = 19 //This ends the loop
-                
-                }
-            // } else if (){
+               setTimeout(function(){
+                   cells[laserLocation].classlist.remove("Hundred")
+                },500)
+                clearInterval(intervalId)
+            }
 
             }else{cells[laserLocation].classList.remove("blaster")
                 aFinalSpot = cells[laserLocation]
@@ -138,13 +224,16 @@ function moveBlaster(laserLocation){
                 blasterEndScreen(aFinalSpot)
                 }
 
+
+                //!This is what is causing it to crash on win
             if (startingAliensTotal === aliensKilled){
+                playerWins()
+                console.log("THIS IS WHY!")
                 clearInterval(intervalId)
-                roundWin()
                 
             }
         },103)
-        
+        return
 }
     
 function bombDrop(bombLocation){
@@ -153,7 +242,7 @@ function bombDrop(bombLocation){
 
     //time function
     let c = Math.ceil(Math.random()*100)
-        if (c > 80){
+        if (c > 10){
     const bombId = setInterval(function(){
         
             bombFinal++
@@ -168,9 +257,10 @@ function bombDrop(bombLocation){
                 // ! End the Game!
                bombFinal=bombPath //This ends the loop
                shipHit = true
+            //    bombEndScreen(aFinalSpot)
                // !Call function for end game
+               playerLoses()
                clearInterval(bombId)
-               endGame()
                 } 
                 // else if (cells[bombLocation].class){}
             
@@ -185,7 +275,7 @@ function bombDrop(bombLocation){
                 // blasterEndScreen(aFinalSpot)
                 }
         },500)
-    }
+    } 
 }
 
 function removeAlienFromArray(location){
@@ -212,6 +302,7 @@ function blasterEndScreen(position){
 
 function bombEndScreen(position){
        
+    position.classList.remove("ship")
     position.classList.add("bomb-end")
 
 setTimeout(function(){
@@ -240,10 +331,10 @@ function handleShipMovement(event){
     if(key === left && shipCurrentPosition !== cellCount -17 && roundWon !== true && shipHit !== true){
         shipCurrentPosition--
         blasterStartingPosition--
-    }else if (key === right && shipCurrentPosition != cellCount - 1 && roundWon !== true && shipHit !== true){
+    }else if (key === right && shipCurrentPosition !== cellCount - 1 && roundWon !== true && shipHit !== true){
         shipCurrentPosition++
         blasterStartingPosition++
-    }else {}
+    }
 
     addShip(shipCurrentPosition)
 }
@@ -257,44 +348,19 @@ function handleShooting(event){
         shootBlaster(shipCurrentPosition)
         moveBlaster(blasterStartingPosition)
         
-    }else {}
+    }
 }
 
 
-function addAliensStarting(){
-    //Randomizing the ranks of enemies
-    //Would be good to set a difficulty before game starts!
-    // !Got rid of randomizer - use later
-    // let alienRanks = (Math.floor(Math.random()*3)+2)
-    let preExistingAliens = document.querySelectorAll(".alien")
-    preExistingAliens.forEach((alien )=> {alien.remove()})
-    let alienRanks = 7
-    for(let r = 0; r < alienRanks; r++){
-        for (let c = 0; c < 9; c++){
-           //select the first starting position using "r" in reverseStartingPositions
-           let startingRow = alienStartingPositions[r]
-           //assign "alien" class to the starting position using "c"
-           alienIdArray.push(startingRow+c)
-           let aNewHope = document.getElementById(startingRow + c)
-            aNewHope.classList.add("alien")
-            
-            knownAliens.push(aNewHope)
-            
-            // aliensNumbers++
-            
-            
-            
-        }
-    } startingAliensTotal = knownAliens.length
-}
+
 
 function updateScore(score){
     
     
     let scoreCard = document.querySelector(".score")
-    
-    scoreCard.innerText = `Score: ${score}`
-    endScore = score
+    totalScore = score + thing
+    scoreCard.innerText = `Score: ${totalScore}`
+    endScore = totalScore
    
     
 }
@@ -332,6 +398,8 @@ function alienBombDropping(){
         if (alienIdArray.length < 15){clearInterval(bombDroppingInterval)}
         // setTimeout(function(){clearInterval(bombDroppingInterval)},400)
         if (shipHit === true){clearInterval(bombDroppingInterval)
+            document.removeEventListener("keypress", handleShipMovement)
+document.removeEventListener("keyup", handleShooting)
         }
     }
 
@@ -405,7 +473,7 @@ function alienBombDropping(){
         
     }
     
-    if (shipHit === true || alienIdArray.length === 0 || roundWon === true)
+    if (shipHit === true || roundWon === true)
     {clearInterval(secondInterval)}
    
 }
@@ -417,57 +485,23 @@ function alienBombDropping(){
 document.addEventListener("keypress", handleShipMovement)
 document.addEventListener("keyup", handleShooting)
 
-// ! Page Load
-createGrid()
-
-
-
-
-function endGame(){
-    clearInterval(secondInterval)
-    document.removeEventListener("keypress", handleShipMovement)
-    document.removeEventListener("keyup", handleShooting)
-    let startButton = document.getElementById("startMe")
-    let startPage = document.querySelector(".startPage")
-    let instructionText = document.querySelector("p")
-    instructionText.innerText = `You Scored: ${endScore}`
-    console.log(endScore)
-    startButton.innerText = "Play Again"
-    let startPageText = document.querySelector("h1")
-    startPageText.innerText = "You Lost!"
-    startPage.style.display = "flex"
-    console.log("EXECUTED")
-
-    startButton.addEventListener("click", handleStart)
-    function handleStart(){
-        startPage.style.display = "none"
-        
-
-    init()
-    }
-}
-
-function roundWin(){
-    document.removeEventListener("keypress", handleShipMovement)
-    document.removeEventListener("keyup", handleShooting)
-    let startButton = document.getElementById("startMe")
-    let startPage = document.querySelector(".startPage")
-    startButton.innerText = "Play Again"
-    let startPageText = document.querySelector("h1")
-    startPageText.innerText = `You Won with a score of: 4500`
-    startPage.style.display = "flex"
-
-    startButton.addEventListener("click", handleStart)
-    function handleStart(){
-        startPage.style.display = "none"
-        
-
-    init()
-    }
-}
+function playerLoses(){
+    firstMenu(false, 0)
+    location.reload(true)
 }
 
 
+
+
+function playerWins(){
+    
+// winState(true, endScore)
+location.reload(true)
+}
+
+
+//! The closing tags for the init Function
+}
 
 
 // ! Extras
