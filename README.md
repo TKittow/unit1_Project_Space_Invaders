@@ -1,5 +1,7 @@
 # ReadMe Space Invaders
 
+![Space Invaders](https://github.com/TKittow/unit1_Project_Space_Invaders/blob/main/img/ReadMe/Project%201%20-%20Final%20Product.png)
+
 ### Description
 
 In this project I recreated the classic arcade game “Space Invaders” using HTML, CSS and JavaScript. It was due on the 16th of December 2023.
